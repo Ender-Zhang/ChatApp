@@ -7,12 +7,14 @@ import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import MyDataScreen from "../screens/MyDataScreen";
 import TabNavigator from './TabNavigator';
 
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   Profile: undefined;
+  MyData: undefined;
   Main: undefined;
 };
 
@@ -36,6 +38,7 @@ const AppNavigator: React.FC = () => {
           <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Main" component={TabNavigator} options={{ headerShown: false }} />
+          <Stack.Screen name="MyData" component={TabNavigator} options={{ headerShown: false }} />
         </Stack.Navigator>
       {/* </NavigationContainer> */}
     </PaperProvider>
