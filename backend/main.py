@@ -26,6 +26,10 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
     is_active = Column(Boolean, default=True)
+    location = Column(String, nullable=True)
+    nickname = Column(String, nullable=True)
+    hobbies = Column(String, nullable=True)
+    age = Column(String, nullable=True)
 
 # ========== 原有 Post 表 ==========
 class Post(Base):
@@ -49,7 +53,7 @@ app.add_middleware(
 )
 
 # ========== 安全相关配置 ==========
-SECRET_KEY = "YOUR_RANDOM_SECRET_KEY"
+SECRET_KEY = "hahaha"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
 
@@ -118,6 +122,10 @@ class UserResponse(BaseModel):
     username: str
     created_at: datetime
     is_active: bool
+    location: Optional[str] = None
+    nickname: Optional[str] = None
+    hobbies: Optional[str] = None
+    age: Optional[str] = None
     class Config:
         orm_mode = True
 
@@ -180,7 +188,11 @@ def login_user(user: UserLogin, db: Session = Depends(get_db)):
         "access_token": access_token,
         "token_type": "bearer",
         "user_id": db_user.id,
-        "username": db_user.username,
+        "username": db_user.username or "",
+        "location":db_user.location or "",
+        "nickname":db_user.nickname or "",
+        "hobbies":db_user.hobbies or "",
+        "age":db_user.age or "",
     }
 
 # 获取前5个帖子

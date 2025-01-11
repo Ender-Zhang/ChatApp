@@ -117,7 +117,7 @@ type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, '
 const LoginScreen = () => {
   const navigation = useNavigation<LoginScreenNavigationProp>();
 
-  const { setUserName } = useContext(UserContext);
+  const { setUserDetails } = useContext(UserContext); // 从 UserContext 中获取 setUserDetails 方法
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -147,7 +147,13 @@ const LoginScreen = () => {
 
       if (response.status === 200) {
         const data = response.data;
-        setUserName(data.username || email);
+        // setUserName(data.username || email);
+        setUserDetails({
+          name: data.nickname,
+          age: data.age,
+          hobbies: data.hobbies,
+          location: data.location,
+        });
         navigation.navigate('Profile');
       }
     } catch (error: any) {
