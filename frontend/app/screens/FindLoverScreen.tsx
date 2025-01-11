@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Button, Avatar, Icon } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useLoveContext } from '../contexts/UserContext';
 // 如果不使用Expo，则需要这样引入：
 // import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -19,6 +20,16 @@ const ProfileCard: React.FC<ProfileScreenProps> = ({ name, age, bio, tags, isLov
   const displayName = name || "张三";
   const displayBio = bio || "这个人很懒，什么都没有留下";
   const displayTags = tags || ["热爱旅游", "喜欢宠物"];
+  const { addProfileToLoved, removeProfileToLoved } = useLoveContext();
+
+  const toggleLove = () => {
+    setLoveState(!loveState);
+    if (!loveState) {
+      addProfileToLoved(name);
+    } else {
+      removeProfileToLoved(name);
+    }
+  };
 
   const renderTags = () => {
     return displayTags.map((tag, index) => (
@@ -38,9 +49,6 @@ const ProfileCard: React.FC<ProfileScreenProps> = ({ name, age, bio, tags, isLov
     // } catch (error: any) {
     //   alert(error.message);
     // }
-  };
-  const toggleLove = () => {
-    setLoveState(!loveState);
   };
 
   const heartIconName = loveState ? 'heart' : 'heart-outline';

@@ -1,7 +1,8 @@
 // src/screens/ProfileScreen.tsx
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, StyleSheet, TextInput } from 'react-native';
 import { Text, Avatar } from 'react-native-paper';
+import { useLoveContext } from '../contexts/UserContext';
 
 type ProfileScreenProps = {
   name: string;
@@ -19,6 +20,7 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
   const [editableBio, setEditableBio] = useState(displayBio);
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingBio, setIsEditingBio] = useState(false);
+  const { lovedProfiles } = useLoveContext();
 
   const handleNamePress = () => {
     setIsEditingName(true);
@@ -82,6 +84,9 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
             </View>
         </View>
       </View>
+
+
+      <Text variant="bodyMedium">喜欢的列表：{lovedProfiles.join(', ')}</Text>
     </View>
   );
 };
