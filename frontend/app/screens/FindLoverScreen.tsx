@@ -85,21 +85,21 @@ const FindLoverScreen: React.FC<{ profiles_: ProfileScreenProps_[] }> = ({ profi
         age: 28,
         bio: "爱旅行，爱摄影，爱生活。",
         tags: ["旅行", "摄影", "美食"],
-        isLove: true
+        isLove: false
       },
       {
         name: "Bob",
         age: 32,
         bio: "健身达人，喜欢挑战自我。",
         tags: ["健身", "跑步", "爬山"],
-        isLove: true
+        isLove: false
       },
       {
         name: "Charlie",
         age: 24,
         bio: "音乐是我的灵魂，吉他弹唱是我的激情。",
         tags: ["音乐", "吉他", "唱歌"],
-        isLove: true
+        isLove: false
       },
       {
         name: "Diana",
@@ -113,7 +113,7 @@ const FindLoverScreen: React.FC<{ profiles_: ProfileScreenProps_[] }> = ({ profi
         age: 35,
         bio: "编程让我快乐，解决问题让我兴奋。",
         tags: ["编程", "技术", "解决问题"],
-        isLove: true
+        isLove: false
       }
     ];
   return (

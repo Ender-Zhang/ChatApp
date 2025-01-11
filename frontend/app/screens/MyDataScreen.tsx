@@ -1,6 +1,6 @@
 // src/screens/ProfileScreen.tsx
 import React, { useState, useContext } from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, Pressable } from 'react-native';
 import { Text, Avatar } from 'react-native-paper';
 import { useLoveContext } from '../contexts/UserContext';
 
@@ -20,7 +20,7 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
   const [editableBio, setEditableBio] = useState(displayBio);
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingBio, setIsEditingBio] = useState(false);
-  const { lovedProfiles } = useLoveContext();
+  const { lovedProfiles, removeProfileToLoved } = useLoveContext();
 
   const handleNamePress = () => {
     setIsEditingName(true);
@@ -38,6 +38,19 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
     setIsEditingBio(false);
   };
 
+  const handleSubmit = async (values: ProfileValues) => {
+    // try {
+    //   await setDoc(doc(db, "users", auth.currentUser?.uid || ""), {
+    //     name: values.name,
+    //     age: Number(values.age),
+    //     // 其他字段...
+    //   });
+      navigation.navigate('Chat');
+    // } catch (error: any) {
+    //   alert(error.message);
+    // }
+  };
+
   // 标签组件
   const renderTags = () => {
     return tags.map((tag, index) => (
@@ -45,6 +58,21 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
         <Text style={styles.tagText}>{tag}</Text>
       </View>
     ));
+  };
+
+  const renderLovedProfile = (profileName: string, index: number) => {
+    return (
+      <View key={index} style={styles.lovedProfileRow}>
+        <Avatar.Text size={40} label={profileName.charAt(0)} style={styles.avatar} />
+        <Text style={styles.lovedProfileName}>{profileName}</Text>
+        <Pressable onPress={() => handleSubmit()} style={styles.removeButton}>
+          <Text style={styles.removeButtonText}>去聊天</Text>
+        </Pressable>
+        <Pressable onPress={() => removeProfileToLoved(profileName)} style={styles.removeButton}>
+          <Text style={styles.removeButtonText}>移除</Text>
+        </Pressable>
+      </View>
+    );
   };
 
   return (
@@ -86,7 +114,8 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
       </View>
 
 
-      <Text variant="bodyMedium">喜欢的列表：{lovedProfiles.join(', ')}</Text>
+      <Text variant="bodyMedium" style={styles.sectionHeader}>喜欢的列表：</Text>
+      {lovedProfiles.map(renderLovedProfile)}
     </View>
   );
 };
@@ -139,6 +168,32 @@ const styles = StyleSheet.create({
     tagText: {
       color: 'black', // 标签文字颜色
     },
+
+  sectionHeader: {
+    marginTop: 20,
+    marginBottom: 10,
+    fontSize: 18,
+  },
+  lovedProfileRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  lovedProfileName: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  removeButton: {
+    backgroundColor: '#ff0000',
+    borderRadius: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+  },
+  removeButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+  },
 });
 
 export default MyDataScreen;
