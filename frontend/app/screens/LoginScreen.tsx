@@ -5,6 +5,7 @@ import { TextInput, Button, Text } from 'react-native-paper';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios'; // 新增：导入 axios
 import { UserContext } from '../contexts/UserContext'; // 导入 UserContext
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
@@ -18,30 +19,40 @@ const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const handleLogin = () => {
-    // 这里是你原本的登录逻辑，比如：
-    // signInWithEmailAndPassword(auth, email, password)
-    //   .then(() => {
-    //     // 登录成功，保存用户名（这里用 email 演示，如果后端返回了用户名，你可以换成后端返回的 username）
-    //     setUserName(email);
+  const handleLogin = async () => {
+    try {
+      // 调用后端 FastAPI 登录接口
+      const response = await axios.post('http://192.168.1.42:8000/login', {
+        username: email,      // 后端需要的字段（示例与之前FastAPI中定义相同）
+        password: password,
+      });
 
-    //     // 跳转到 Profile
-    //     navigation.navigate('Profile');
-    //   })
-    //   .catch(error => {
-    //     alert(error.message);
-    //   });
+      // 如果后端返回 200 且包含令牌等信息
+      if (response.status === 200) {
+        // 示例：后端返回 { access_token, user_id, username, ... }
+        const data = response.data;
 
-    // 这里简化演示，假设登录成功：
-    setUserName(email);
-    navigation.navigate('Profile');
+        // 在此保存 username 到 Context（也可保存 token 等信息）
+        setUserName(data.username || email);
+
+        // 登录成功后跳转到 Profile
+        navigation.navigate('Profile');
+      }
+    } catch (error: any) {
+      console.log(error);
+      if (error.response) {
+        alert(`登录失败：${error.response.data.detail || '未知错误'}`);
+      } else {
+        alert(`请求错误：${error.message}`);
+      }
+    }
   };
 
   return (
     <View style={styles.container}>
       <Text variant="headlineMedium">登录</Text>
       <TextInput
-        label="电子邮件"
+        label="用户名或邮箱"
         value={email}
         onChangeText={setEmail}
         style={styles.input}

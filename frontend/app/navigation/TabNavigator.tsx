@@ -40,7 +40,7 @@ const TabNavigator: React.FC = () => {
     >
       <Tab.Screen name="Chat" component={ChatScreen} />
       <Tab.Screen name="Moments" component={MomentsScreen} />
-
+      <Tab.Screen name="MyData" component={MyDataScreen} />
 
     </Tab.Navigator>
   );
