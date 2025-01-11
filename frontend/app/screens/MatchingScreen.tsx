@@ -31,7 +31,7 @@ const MatchingScreen = () => {
     //   navigation.replace("Main"); 
       navigation.navigate("Main");
       
-    }, 3000);
+    }, 1000);
 
     // 组件卸载时，清理定时器和动画
     return () => {
