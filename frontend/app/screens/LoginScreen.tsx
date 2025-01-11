@@ -33,14 +33,10 @@ const LoginScreen: React.FC = () => {
     //   });
 
     // 这里简化演示，假设登录成功：
-//     setUserName(email);
+    setUserName(email);
 //     navigation.navigate('Profile');
 
-  navigation.navigate('MyData', {
-    name: '张三', // 假设这是登录用户的名字
-    age: 25, // 假设这是登录用户的年龄
-    bio: '热爱编程，追求技术', // 假设这是登录用户的个签
-  });
+  navigation.navigate('MyData');
   };
 
   return (
