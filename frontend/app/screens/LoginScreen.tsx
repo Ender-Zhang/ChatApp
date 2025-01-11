@@ -34,9 +34,7 @@ const LoginScreen: React.FC = () => {
 
     // 这里简化演示，假设登录成功：
     setUserName(email);
-//     navigation.navigate('Profile');
-
-  navigation.navigate('MyData');
+    navigation.navigate('Profile');
   };
 
   return (
