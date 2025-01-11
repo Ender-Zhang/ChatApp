@@ -14,7 +14,7 @@ type ProfileScreenNavigationProp = NativeStackNavigationProp<RootStackParamList,
 // 定义表单字段类型
 interface ProfileValues {
   name: string;
-  age: string;
+  age: string;       // 这里作为 string，方便表单输入
   hobbies: string;
   location: string;
 }
@@ -22,29 +22,35 @@ interface ProfileValues {
 // 表单验证规则
 const ProfileSchema = Yup.object().shape({
   name: Yup.string().required('必填'),
-  age: Yup.number().typeError('必须是数字').required('必填').positive('必须是正数').integer('必须是整数'),
+  age: Yup.number()
+    .typeError('必须是数字')
+    .required('必填')
+    .positive('必须是正数')
+    .integer('必须是整数'),
   hobbies: Yup.string(),
   location: Yup.string(),
 });
 
 const ProfileScreen: React.FC = () => {
   const navigation = useNavigation<ProfileScreenNavigationProp>();
-  const { setUserDetails } = useContext(UserContext); // 从 UserContext 中获取 setUserDetails 方法
+  
+  // 从 Context 中获取 userDetails 和 setUserDetails 方法
+  const { userDetails, setUserDetails } = useContext(UserContext);
 
+  // 点击提交时执行
   const handleSubmit = async (values: ProfileValues) => {
     try {
       console.log('表单提交:', values);
 
       // 保存到 UserContext
       setUserDetails({
-        name: values.name,
+        id: userDetails.id,        name: values.name,
         age: values.age,
         hobbies: values.hobbies,
         location: values.location,
       });
 
-      // 导航到主页面
-      // navigation.navigate('Main');
+      // 导航到下一个页面
       navigation.navigate('Matching');
     } catch (error: any) {
       alert(error.message);
@@ -54,8 +60,15 @@ const ProfileScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>完善个人信息</Text>
+
       <Formik
-        initialValues={{ name: '', age: '', hobbies: '', location: '' }}
+        // 初始值：如果 userDetails 里有值，则使用其值，否则为空字符串
+        initialValues={{
+          name: userDetails?.name || '',
+          age: userDetails?.age || '',
+          hobbies: userDetails?.hobbies || '',
+          location: userDetails?.location || '',
+        }}
         validationSchema={ProfileSchema}
         onSubmit={handleSubmit}
       >
@@ -106,7 +119,11 @@ const ProfileScreen: React.FC = () => {
               <Text style={styles.error}>{errors.location}</Text>
             ) : null}
 
-            <Button mode="contained" onPress={() => handleSubmit()} style={styles.button}>
+            <Button
+              mode="contained"
+              onPress={() => handleSubmit()}
+              style={styles.button}
+            >
               提交
             </Button>
           </>
@@ -115,6 +132,8 @@ const ProfileScreen: React.FC = () => {
     </View>
   );
 };
+
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
   container: {
@@ -150,5 +169,3 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
-
-export default ProfileScreen;

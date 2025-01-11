@@ -149,6 +149,7 @@ const LoginScreen = () => {
         const data = response.data;
         // setUserName(data.username || email);
         setUserDetails({
+          id: data.id,
           name: data.nickname,
           age: data.age,
           hobbies: data.hobbies,

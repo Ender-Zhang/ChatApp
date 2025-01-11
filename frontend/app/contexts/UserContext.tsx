@@ -3,6 +3,7 @@
 import React, { createContext, useState, ReactNode, useContext } from 'react';
 
 interface UserDetails {
+  id: string,
   name: string;
   age: string;
   hobbies: string;
@@ -19,7 +20,7 @@ interface UserContextProps {
 export const UserContext = createContext<UserContextProps>({
   userName: '',
   setUserName: () => {},
-  userDetails: { name: '', age: '', hobbies: '', location: '' },
+  userDetails: { id: '' ,name: '', age: '', hobbies: '', location: '' },
   setUserDetails: () => {},
 });
 
@@ -42,6 +43,7 @@ interface UserProviderProps {
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [userName, setUserName] = useState<string>('');
   const [userDetails, setUserDetails] = useState<UserDetails>({
+    id: '',
     name: '',
     age: '',
     hobbies: '',
