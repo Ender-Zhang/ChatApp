@@ -10,6 +10,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import MyDataScreen from "../screens/MyDataScreen";
 import FindLoverScreen from "../screens/FindLoverScreen";
 import TabNavigator from './TabNavigator';
+import MatchingScreen from 'app/screens/MatchingScreen';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -17,6 +18,8 @@ export type RootStackParamList = {
   Profile: undefined;
   MyData: undefined;
   Main: undefined;
+  Matching: undefined;
+  FindLover: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -41,6 +44,7 @@ const AppNavigator: React.FC = () => {
           <Stack.Screen name="Main" component={TabNavigator} options={{ headerShown: false }} />
           <Stack.Screen name="MyData" component={TabNavigator} options={{ headerShown: false }} />
           <Stack.Screen name="FindLover" component={TabNavigator} options={{ headerShown: false }} />
+          <Stack.Screen name="Matching" component={MatchingScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       {/* </NavigationContainer> */}
     </PaperProvider>

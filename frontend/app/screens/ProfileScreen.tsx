@@ -44,7 +44,8 @@ const ProfileScreen: React.FC = () => {
       });
 
       // 导航到主页面
-      navigation.navigate('Main');
+      // navigation.navigate('Main');
+      navigation.navigate('Matching');
     } catch (error: any) {
       alert(error.message);
     }
