@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { View, StyleSheet, FlatList, Image, ActivityIndicator } from 'react-native';
 import { Text, TextInput, Button, Card } from 'react-native-paper';
 import { UserContext } from '../contexts/UserContext';
+import * as ImagePicker from 'expo-image-picker';
 
 // 定义帖子结构
 interface Post {
@@ -20,6 +21,8 @@ const MomentsScreen: React.FC = () => {
 
    // 从 Context 获取当前 userName
    const { userName } = useContext(UserContext);
+   const [imageBase64, setImageBase64] = useState<string>('');
+
   // 获取帖子列表
   const fetchPosts = async () => {
     try {
@@ -55,6 +58,37 @@ const MomentsScreen: React.FC = () => {
     fetchPosts();
   }, []);
 
+  const pickImage = async () => {
+    try {
+      // 1. 首先请求用户的相册访问权限
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        alert('需要访问相册的权限！');
+        return;
+      }
+
+      // 2. 打开图像选择器
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images, // 只允许选择图片
+        allowsEditing: true,          // 是否允许编辑图片(裁剪等)
+        quality: 1,                   // 图片质量，范围 0~1
+        base64: true,                 // 需要 base64
+      });
+
+      // result.canceled 为 true 表示用户取消了选图
+      if (!result.canceled && result.assets?.length) {
+        // 取第一张照片
+        const photo = result.assets[0];
+        // 保存到 state，以便后面发帖一起带上
+        if (photo.base64) {
+          setImageBase64(photo.base64);
+        }
+      }
+    } catch (error) {
+      console.error('选择图片出错：', error);
+    }
+  };
+
   // 发布帖子
   const handlePost = async () => {
     if (text.trim() === '') {
@@ -69,7 +103,7 @@ const MomentsScreen: React.FC = () => {
         user_name: userName,
         content: text,
         // 如果想要上传网络图片，可以给个真实 url
-        image_url: 'https://example.com/path/to/image1.jpg',
+        image_base64: imageBase64,
       };
 
       const response = await fetch('http://192.168.1.42:8000/posts', {
@@ -86,6 +120,7 @@ const MomentsScreen: React.FC = () => {
 
       // 发布成功后，清空输入框并重新获取帖子列表
       setText('');
+      setImageBase64('');
       await fetchPosts();
     } catch (error) {
       console.error('发布帖子出错：', error);
@@ -125,6 +160,18 @@ const MomentsScreen: React.FC = () => {
           style={styles.textInput}
         />
       </View>
+
+      <Button mode="outlined" onPress={pickImage} style={styles.pickButton}>
+        选择照片
+      </Button>
+      {/* 如果已经选了照片，可以预览一下 */}
+      {imageBase64 ? (
+        <Image
+          source={{ uri: `data:image/png;base64,${imageBase64}` }}
+          style={styles.selectedImage}
+        />
+      ) : null}
+
       <Button mode="contained" onPress={handlePost} disabled={uploading} style={styles.postButton}>
         {uploading ? "发布中..." : "发布"}
       </Button>
@@ -154,6 +201,16 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginBottom: 10,
+  },
+  pickButton: {
+    marginBottom: 10,
+  },
+  // === 新增：展示选中图片的样式
+  selectedImage: {
+    width: '100%',
+    height: 200,
+    marginBottom: 10,
+    resizeMode: 'cover',
   },
   postButton: {
     marginBottom: 10,
