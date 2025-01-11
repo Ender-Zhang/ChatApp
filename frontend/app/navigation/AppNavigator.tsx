@@ -8,6 +8,7 @@ import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import MyDataScreen from "../screens/MyDataScreen";
+import FindLoverScreen from "../screens/FindLoverScreen";
 import TabNavigator from './TabNavigator';
 
 export type RootStackParamList = {
@@ -39,6 +40,7 @@ const AppNavigator: React.FC = () => {
           <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Main" component={TabNavigator} options={{ headerShown: false }} />
           <Stack.Screen name="MyData" component={TabNavigator} options={{ headerShown: false }} />
+          <Stack.Screen name="FindLover" component={TabNavigator} options={{ headerShown: false }} />
         </Stack.Navigator>
       {/* </NavigationContainer> */}
     </PaperProvider>
