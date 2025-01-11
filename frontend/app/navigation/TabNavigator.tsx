@@ -6,6 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ChatScreen from '../screens/ChatScreen';
 import MomentsScreen from '../screens/MomentsScreen';
 import MyDataScreen from '../screens/MyDataScreen'
+import FindLoverScreen from "../screens/FindLoverScreen";
 
 
 export type TabParamList = {
@@ -40,6 +41,7 @@ const TabNavigator: React.FC = () => {
     >
       <Tab.Screen name="Chat" component={ChatScreen} />
       <Tab.Screen name="Moments" component={MomentsScreen} />
+      <Tab.Screen name="FindLover" component={FindLoverScreen} />
       <Tab.Screen name="MyData" component={MyDataScreen} />
 
     </Tab.Navigator>

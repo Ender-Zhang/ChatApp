@@ -31,7 +31,6 @@ const LoginScreen: React.FC = () => {
       if (response.status === 200) {
         // 示例：后端返回 { access_token, user_id, username, ... }
         const data = response.data;
-
         // 在此保存 username 到 Context（也可保存 token 等信息）
         setUserName(data.username || email);
 
@@ -46,6 +45,7 @@ const LoginScreen: React.FC = () => {
         alert(`请求错误：${error.message}`);
       }
     }
+
   };
 
   return (
