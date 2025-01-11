@@ -5,6 +5,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import ChatScreen from '../screens/ChatScreen';
 import MomentsScreen from '../screens/MomentsScreen';
+import MyDataScreen from '../screens/MyDataScreen'
+
 
 export type TabParamList = {
   Chat: undefined;
@@ -38,6 +40,8 @@ const TabNavigator: React.FC = () => {
     >
       <Tab.Screen name="Chat" component={ChatScreen} />
       <Tab.Screen name="Moments" component={MomentsScreen} />
+      <Tab.Screen name="MyData" component={MyDataScreen} />
+
     </Tab.Navigator>
   );
 };
