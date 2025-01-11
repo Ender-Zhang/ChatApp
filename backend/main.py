@@ -8,6 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from datetime import datetime
 import base64
+from fastapi.middleware.cors import CORSMiddleware
 
 
 # SQLite数据库连接
@@ -36,6 +37,15 @@ class Post(Base):
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(debug=True)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 在生产环境建议改为指定域名列表
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 class Itemexample(BaseModel):
     name: str
