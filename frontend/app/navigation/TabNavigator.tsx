@@ -12,6 +12,8 @@ import FindLoverScreen from "../screens/FindLoverScreen";
 export type TabParamList = {
   Chat: undefined;
   Moments: undefined;
+  FindLover: undefined;
+  MyData: undefined;
 };
 
 const Tab = createBottomTabNavigator<TabParamList>();
