@@ -7,13 +7,13 @@ import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import ChatScreen from '../screens/ChatScreen';
+import TabNavigator from './TabNavigator';
 
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
   Profile: undefined;
-  Chat: undefined;
+  Main: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -35,7 +35,7 @@ const AppNavigator: React.FC = () => {
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Chat" component={ChatScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Main" component={TabNavigator} options={{ headerShown: false }} />
         </Stack.Navigator>
       {/* </NavigationContainer> */}
     </PaperProvider>

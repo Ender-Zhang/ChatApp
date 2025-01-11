@@ -4,6 +4,8 @@ import { View, StyleSheet } from 'react-native';
 import { TextInput, Button, Text } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+
+import { doc, setDoc } from 'firebase/firestore';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { useNavigation } from '@react-navigation/native';
@@ -32,7 +34,7 @@ const ProfileScreen: React.FC = () => {
     //     age: Number(values.age),
     //     // 其他字段...
     //   });
-      navigation.navigate('Chat');
+      navigation.navigate('Main');
     // } catch (error: any) {
     //   alert(error.message);
     // }
@@ -40,7 +42,7 @@ const ProfileScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text variant="headlineMedium">填写信息来帮助你匹配有缘人~</Text>
+      <Text variant="headlineMedium">填写个人信息</Text>
       <Formik
         initialValues={{ name: '', age: '' }}
         validationSchema={ProfileSchema}
