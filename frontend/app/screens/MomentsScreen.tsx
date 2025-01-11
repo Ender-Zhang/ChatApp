@@ -20,7 +20,7 @@ const MomentsScreen: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
 
    // 从 Context 获取当前 userName
-   const { userName } = useContext(UserContext);
+   const { userDetails } = useContext(UserContext);
    const [imageBase64, setImageBase64] = useState<string>('');
 
   // 获取帖子列表
@@ -100,7 +100,7 @@ const MomentsScreen: React.FC = () => {
     try {
       // 这里演示固定 user_name，如果你有登录/用户信息，可自行从 context 或参数获取
       const payload = {
-        user_name: userName,
+        user_name: userDetails.name,
         content: text,
         // 如果想要上传网络图片，可以给个真实 url
         image_base64: imageBase64,
