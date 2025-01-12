@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput, Button, Text, Card } from 'react-native-paper';
 import axios from 'axios';
 import CONFIG from'../../constants/config';
+import { useRoute } from '@react-navigation/native';
 
 interface Message {
   id: string;
@@ -13,6 +14,14 @@ interface Message {
 const ChatScreen: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const [messages, setMessages] = useState<Message[]>([]);
+  const route = useRoute();
+  const [reloadCount, setReloadCount] = useState(0);
+
+  useEffect(() => {
+    console.log('页面重新加载，参数:', route.params);
+    setMessages([]); // 清空旧数据
+    setReloadCount((prev) => prev + 1); // 每次参数变化时增加计数
+  }, [route.params?.reloadKey]);
 
   const sendMessage = async () => {
     if (message.trim() === '') return;  // 防止空消息

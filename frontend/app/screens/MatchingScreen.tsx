@@ -28,7 +28,6 @@ const MatchingScreen = () => {
     const timer = setTimeout(() => {
       // 可根据需要先停止动画
       anim.stop();
-    //   navigation.replace("Main"); 
       navigation.navigate("Main");
       
     }, 1000);

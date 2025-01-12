@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Button, Avatar, Icon } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLoveContext } from '../contexts/UserContext';
+import { useNavigation } from '@react-navigation/native';
 // 如果不使用Expo，则需要这样引入：
 // import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -21,7 +22,7 @@ const ProfileCard: React.FC<ProfileScreenProps> = ({ name, age, bio, tags, isLov
   const displayBio = bio || "这个人很懒，什么都没有留下";
   const displayTags = tags || ["热爱旅游", "喜欢宠物"];
   const { addProfileToLoved, removeProfileToLoved } = useLoveContext();
-
+  const navigation = useNavigation(); // 获取导航对象
   const toggleLove = () => {
     setLoveState(!loveState);
     if (!loveState) {
@@ -45,7 +46,10 @@ const ProfileCard: React.FC<ProfileScreenProps> = ({ name, age, bio, tags, isLov
     //     age: Number(values.age),
     //     // 其他字段...
     //   });
-      navigation.navigate('Chat');
+    navigation.navigate('Main', {
+      screen: 'Chat', // TabNavigator 中的目标选项卡
+      params: { reloadKey: Math.random() }, // 添加随机参数
+    });
     // } catch (error: any) {
     //   alert(error.message);
     // }

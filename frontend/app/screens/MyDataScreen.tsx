@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react';
 import { View, StyleSheet, TextInput, Pressable } from 'react-native';
 import { Text, Avatar } from 'react-native-paper';
 import { useLoveContext } from '../contexts/UserContext';
+import { useNavigation } from '@react-navigation/native';
 
 type ProfileScreenProps = {
   name: string;
@@ -21,6 +22,7 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingBio, setIsEditingBio] = useState(false);
   const { lovedProfiles, removeProfileToLoved } = useLoveContext();
+  const navigation = useNavigation(); // 获取导航对象
 
   const handleNamePress = () => {
     setIsEditingName(true);
@@ -45,7 +47,11 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
     //     age: Number(values.age),
     //     // 其他字段...
     //   });
-      navigation.navigate('Chat');
+      // navigation.navigate('Chat');
+      navigation.navigate('Main', {
+        screen: 'Chat', // TabNavigator 中的目标选项卡
+        params: { reloadKey: Math.random() }, // 添加随机参数
+      });
     // } catch (error: any) {
     //   alert(error.message);
     // }
@@ -65,7 +71,7 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
       <View key={index} style={styles.lovedProfileRow}>
         <Avatar.Text size={40} label={profileName.charAt(0)} style={styles.avatar} />
         <Text style={styles.lovedProfileName}>{profileName}</Text>
-        <Pressable onPress={() => handleSubmit()} style={styles.removeButton}>
+        <Pressable onPress={() => {handleSubmit()}} style={styles.removeButton}>
           <Text style={styles.removeButtonText}>去聊天</Text>
         </Pressable>
         <Pressable onPress={() => removeProfileToLoved(profileName)} style={styles.removeButton}>
