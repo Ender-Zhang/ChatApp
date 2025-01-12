@@ -30,7 +30,7 @@ const MatchingScreen = () => {
       anim.stop();
       navigation.navigate('Main', {
         screen: 'Chat', // TabNavigator 中的目标选项卡
-        params: { name: "李悦涵" }, // 添加随机参数
+        params: { name: "AI红娘" }, // 添加随机参数
       });
       
     }, 1000);

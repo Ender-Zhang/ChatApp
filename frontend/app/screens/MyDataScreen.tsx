@@ -40,17 +40,17 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
     setIsEditingBio(false);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (profileName: string) => {
     // try {
     //   await setDoc(doc(db, "users", auth.currentUser?.uid || ""), {
     //     name: values.name,
     //     age: Number(values.age),
     //     // 其他字段...
     //   });
-      // navigation.navigate('Chat');
+      console.log("profileName",profileName)
       navigation.navigate('Main', {
         screen: 'Chat', // TabNavigator 中的目标选项卡
-        params: { name: displayName }, // 添加随机参数
+        params: { name: profileName }, // 添加随机参数
       });
     // } catch (error: any) {
     //   alert(error.message);
@@ -71,7 +71,7 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
       <View key={index} style={styles.lovedProfileRow}>
         <Avatar.Text size={40} label={profileName.charAt(0)} style={styles.avatar} />
         <Text style={styles.lovedProfileName}>{profileName}</Text>
-        <Pressable onPress={() => {handleSubmit()}} style={styles.removeButton}>
+        <Pressable onPress={() => {handleSubmit(profileName)}} style={styles.removeButton}>
           <Text style={styles.removeButtonText}>去聊天</Text>
         </Pressable>
         <Pressable onPress={() => removeProfileToLoved(profileName)} style={styles.removeButton}>
