@@ -63,7 +63,7 @@ const ProfileCard: React.FC<ProfileScreenProps> = ({ name, age, bio, tags, isLov
       <View style={styles.profileInfo}>
         <Text variant="headlineMedium">{displayName}</Text>
         <Text variant="bodyMedium">年龄：{age}</Text>
-        <Text variant="bodyMedium">个签：{displayBio}</Text>
+        <Text variant="bodyMedium">个性签名：{displayBio}</Text>
         <View style={styles.tagsRow}>
           {renderTags()}
         </View>
@@ -84,6 +84,13 @@ const ProfileCard: React.FC<ProfileScreenProps> = ({ name, age, bio, tags, isLov
 
 const FindLoverScreen: React.FC<{ profiles_: ProfileScreenProps_[] }> = ({ profiles_ }) => {
     const profiles = profiles_ || [
+      {
+        name: "Ai红娘",
+        age: 18,
+        bio: "你的专属ai红娘",
+        tags: ["帮你找到意中人"],
+        isLove: false
+      },
       {
         name: "Alice",
         age: 28,
