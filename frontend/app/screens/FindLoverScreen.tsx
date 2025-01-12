@@ -13,11 +13,11 @@ type ProfileScreenProps = {
   bio: string;
   tags: string[];
   isLove: boolean;
+  image?: any;
 };
 
-const ProfileCard: React.FC<ProfileScreenProps> = ({ name, age, bio, tags, isLove }) => {
+const ProfileCard: React.FC<ProfileScreenProps> = ({ name, age, bio, tags, isLove, image, }) => {
   const [loveState, setLoveState] = useState(isLove);
-
   const displayName = name || "张三";
   const displayBio = bio || "这个人很懒，什么都没有留下";
   const displayTags = tags || ["热爱旅游", "喜欢宠物"];
@@ -59,7 +59,13 @@ const ProfileCard: React.FC<ProfileScreenProps> = ({ name, age, bio, tags, isLov
 
   return (
     <View style={styles.profileRow}>
-      <Avatar.Text size={100} label={displayName.charAt(0)} style={styles.avatar} />
+      <Avatar.Image
+        size={100}
+        source={
+          image
+        }
+        style={styles.avatar}
+      />
       <View style={styles.profileInfo}>
         <Text variant="headlineMedium">{displayName}</Text>
         <Text variant="bodyMedium">年龄：{age}</Text>
@@ -89,42 +95,48 @@ const FindLoverScreen: React.FC<{ profiles_: ProfileScreenProps_[] }> = ({ profi
         age: 18,
         bio: "你的专属ai红娘",
         tags: ["帮你找到意中人"],
-        isLove: false
+        isLove: false,
+        image: require('../../assets/images/redwoman.png'),
       },
       {
         name: "Alice",
         age: 28,
         bio: "爱旅行，爱摄影，爱生活。",
         tags: ["旅行", "摄影", "美食"],
-        isLove: false
+        isLove: false,
+        image: require('../../assets/images/Alice.png'),
       },
       {
         name: "Bob",
         age: 32,
         bio: "健身达人，喜欢挑战自我。",
         tags: ["健身", "跑步", "爬山"],
-        isLove: false
+        isLove: false,
+        image: require('../../assets/images/Bob.png'),
       },
       {
         name: "Charlie",
         age: 24,
         bio: "音乐是我的灵魂，吉他弹唱是我的激情。",
         tags: ["音乐", "吉他", "唱歌"],
-        isLove: false
+        isLove: false,
+        image: require('../../assets/images/Charlie.png'),
       },
       {
         name: "Diana",
         age: 29,
         bio: "书和咖啡，我的完美下午。",
         tags: ["阅读", "咖啡", "写作"],
-        isLove: false
+        isLove: false,
+        image: require('../../assets/images/Diana.png'),
       },
       {
         name: "Evan",
         age: 35,
         bio: "编程让我快乐，解决问题让我兴奋。",
         tags: ["编程", "技术", "解决问题"],
-        isLove: false
+        isLove: false,
+        image: require('../../assets/images/Evan.png'),
       }
     ];
   return (

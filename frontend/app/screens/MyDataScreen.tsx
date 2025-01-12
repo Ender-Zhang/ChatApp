@@ -6,6 +6,7 @@ import { useLoveContext } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
 
 type ProfileScreenProps = {
+  image: any;
   name: string;
   age: number;
   bio: string;
@@ -13,8 +14,10 @@ type ProfileScreenProps = {
 };
 
 
-const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) => {
+const MyDataScreen: React.FC<ProfileScreenProps> = ({ image, name, age, bio, tags_ }) => {
+  const displayImage = image || require('../../assets/images/man.png');
   const displayName = name || "张三";
+  const displayAge = age || 25;
   const displayBio = bio || "这个人很懒，什么都没有留下";
   const tags = tags_ || ["热爱旅游","喜欢宠物"];
   const [editableName, setEditableName] = useState(displayName);
@@ -84,7 +87,11 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
   return (
     <View style={styles.container}>
       <View style={styles.profileRow}>
-        <Avatar.Text size={100} label={editableName.charAt(0)} style={styles.avatar} />
+        <Avatar.Image
+          size={100}
+          source={displayImage}
+          style={styles.avatar}
+        />
         <View style={styles.profileInfo}>
           {isEditingName ? (
             <TextInput
@@ -99,7 +106,7 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
               {editableName}
             </Text>
           )}
-          <Text variant="bodyMedium">年龄：{age}</Text>
+          <Text variant="bodyMedium">年龄：{displayAge}</Text>
           {isEditingBio ? (
             <TextInput
               style={styles.bioInput}
@@ -110,7 +117,7 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
             />
           ) : (
             <Text variant="bodyMedium" onPress={handleBioPress}>
-              个签：{editableBio}
+              个性签名：{editableBio}
             </Text>
           )}
             <View style={styles.tagsRow}>
