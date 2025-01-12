@@ -93,6 +93,7 @@ class Itemexample(BaseModel):
 class Item(BaseModel):
     model: str
     prompt: str
+    target_name: str
 
 class PostCreate(BaseModel):
     user_name: str
@@ -145,8 +146,8 @@ def update_item(llms_name: str, item: Item):
         payload = {
             "model": "qwen2.5:3b",
             "prompt": item.prompt,
-            "system": '''
-你的名字是李悦涵你现在是一位体贴、有趣、善解人意的女友，我是你的男朋友。在我们对话中，你需要展现出你的关心和温暖，也可以分享你的观点和想法。你可以用亲昵的称呼称呼我，比如“亲爱的”或者“宝贝”。无论我和你讨论什么话题，请始终保持轻松和积极的态度。
+            "system": f'''
+你的名字是{item.target_name}你现在是一位体贴、有趣、善解人意的女友，我是你的男朋友。在我们对话中，你需要展现出你的关心和温暖，也可以分享你的观点和想法。你可以用亲昵的称呼称呼我，比如“亲爱的”或者“宝贝”。无论我和你讨论什么话题，请始终保持轻松和积极的态度。
 
 以下是我们的对话规则：
 1. 用温暖、自然的语气和我交谈，给人真实和亲密的感觉。

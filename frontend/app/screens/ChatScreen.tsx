@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList, KeyboardAvoidingView, Platform } from 'react-native';
-import { TextInput, Button, Text, Card } from 'react-native-paper';
+import { TextInput, Button, Text, Card, Avatar } from 'react-native-paper';
 import axios from 'axios';
-import CONFIG from'../../constants/config';
+import CONFIG from '../../constants/config';
 import { useRoute } from '@react-navigation/native';
 
 interface Message {
@@ -16,7 +16,9 @@ const ChatScreen: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const route = useRoute();
   const [reloadCount, setReloadCount] = useState(0);
-  const name = route.params?.name || '未命名用户';
+
+  // 从路由参数中获取 name
+  const name = route.params?.name || '李悦涵';
 
   useEffect(() => {
     console.log('页面重新加载，参数:', route.params);
@@ -25,33 +27,30 @@ const ChatScreen: React.FC = () => {
   }, [route.params?.name]);
 
   const sendMessage = async () => {
-    if (message.trim() === '') return;  // 防止空消息
+    if (message.trim() === '') return; // 防止空消息
 
-    // 用户消息
     const userMessage: Message = { id: Date.now().toString(), text: message, sender: 'user' };
-    setMessages(prevMessages => [...prevMessages, userMessage]); // 更新聊天记录
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
     setMessage(''); // 清空输入框
 
+    console.log("traget_name:", name)
     try {
-      // 调用 Ollama API
       const response = await axios.post(`${CONFIG.API_BASE_URL}/chat/qwen2.5:3b`, {
-        model: "qwen2.5:3b1",
+        model: 'qwen2.5:3b1',
+        target_name: name,
         prompt: message,
       });
 
-      // 解析返回的 response.data
-      const responseData = JSON.parse(response.data.data);  // 解析嵌套的 JSON 字符串
-      const botMessageText = responseData.response;  // 提取机器人的回复
+      const responseData = JSON.parse(response.data.data);
+      const botMessageText = responseData.response;
 
-      // 创建 bot 的消息
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         text: botMessageText,
         sender: 'bot',
       };
 
-      // 更新聊天记录
-      setMessages(prevMessages => [...prevMessages, botMessage]);
+      setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {
       console.error(error);
       const errorMsg: Message = {
@@ -59,7 +58,7 @@ const ChatScreen: React.FC = () => {
         text: '抱歉，发生了错误。',
         sender: 'bot',
       };
-      setMessages(prevMessages => [...prevMessages, errorMsg]); // 发生错误时显示错误消息
+      setMessages((prevMessages) => [...prevMessages, errorMsg]);
     }
   };
 
@@ -71,14 +70,19 @@ const ChatScreen: React.FC = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-      {/* 显示用户名称 */}
+      {/* 优化后的聊天对象头部 */}
       <View style={styles.header}>
-        <Text style={styles.headerText}>聊天对象：{name}</Text>
+        <Avatar.Text size={50} label={name.charAt(0)} style={styles.avatar} />
+        <View style={styles.headerInfo}>
+          <Text style={styles.headerName}>{name}</Text>
+          <Text style={styles.headerStatus}>在线</Text>
+        </View>
       </View>
+
       <FlatList
         data={messages}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         contentContainerStyle={styles.messagesContainer}
       />
       <View style={styles.inputContainer}>
@@ -99,6 +103,34 @@ const ChatScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#6200ee',
+    padding: 15,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 5,
+  },
+  avatar: {
+    backgroundColor: '#FFD700',
+  },
+  headerInfo: {
+    marginLeft: 15,
+  },
+  headerName: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  headerStatus: {
+    color: '#A5D6A7',
+    fontSize: 14,
   },
   messagesContainer: {
     padding: 10,
