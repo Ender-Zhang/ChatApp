@@ -16,12 +16,13 @@ const ChatScreen: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const route = useRoute();
   const [reloadCount, setReloadCount] = useState(0);
+  const name = route.params?.name || '未命名用户';
 
   useEffect(() => {
     console.log('页面重新加载，参数:', route.params);
     setMessages([]); // 清空旧数据
     setReloadCount((prev) => prev + 1); // 每次参数变化时增加计数
-  }, [route.params?.reloadKey]);
+  }, [route.params?.name]);
 
   const sendMessage = async () => {
     if (message.trim() === '') return;  // 防止空消息
@@ -70,6 +71,10 @@ const ChatScreen: React.FC = () => {
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+      {/* 显示用户名称 */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>聊天对象：{name}</Text>
+      </View>
       <FlatList
         data={messages}
         renderItem={renderItem}

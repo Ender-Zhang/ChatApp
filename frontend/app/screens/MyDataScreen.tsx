@@ -40,7 +40,7 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
     setIsEditingBio(false);
   };
 
-  const handleSubmit = async (values: ProfileValues) => {
+  const handleSubmit = async () => {
     // try {
     //   await setDoc(doc(db, "users", auth.currentUser?.uid || ""), {
     //     name: values.name,
@@ -50,7 +50,7 @@ const MyDataScreen: React.FC<ProfileScreenProps> = ({ name, age, bio, tags_ }) =
       // navigation.navigate('Chat');
       navigation.navigate('Main', {
         screen: 'Chat', // TabNavigator 中的目标选项卡
-        params: { reloadKey: Math.random() }, // 添加随机参数
+        params: { name: displayName }, // 添加随机参数
       });
     // } catch (error: any) {
     //   alert(error.message);

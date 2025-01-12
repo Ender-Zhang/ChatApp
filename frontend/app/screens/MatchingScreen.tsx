@@ -28,7 +28,10 @@ const MatchingScreen = () => {
     const timer = setTimeout(() => {
       // 可根据需要先停止动画
       anim.stop();
-      navigation.navigate("Main");
+      navigation.navigate('Main', {
+        screen: 'Chat', // TabNavigator 中的目标选项卡
+        params: { name: "李皓月" }, // 添加随机参数
+      });
       
     }, 1000);
 
