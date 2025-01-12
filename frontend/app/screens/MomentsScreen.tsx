@@ -3,6 +3,7 @@ import { View, StyleSheet, FlatList, Image, ActivityIndicator } from 'react-nati
 import { Text, TextInput, Button, Card } from 'react-native-paper';
 import { UserContext } from '../contexts/UserContext';
 import * as ImagePicker from 'expo-image-picker';
+import CONFIG from '../../constants/config'
 
 // 定义帖子结构
 interface Post {
@@ -26,7 +27,7 @@ const MomentsScreen: React.FC = () => {
   // 获取帖子列表
   const fetchPosts = async () => {
     try {
-      const response = await fetch('http://192.168.1.42:8000/posts');
+      const response = await fetch(`${CONFIG.API_BASE_URL}/posts`);
       if (!response.ok) {
         console.error(`获取帖子失败，状态码：${response.status}`);
         return;
@@ -106,7 +107,7 @@ const MomentsScreen: React.FC = () => {
         image_base64: imageBase64,
       };
 
-      const response = await fetch('http://192.168.1.42:8000/posts', {
+      const response = await fetch(`${CONFIG.API_BASE_URL}/posts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

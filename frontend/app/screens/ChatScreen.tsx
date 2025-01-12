@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, FlatList, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput, Button, Text, Card } from 'react-native-paper';
 import axios from 'axios';
+import CONFIG from'../../constants/config';
 
 interface Message {
   id: string;
@@ -23,7 +24,7 @@ const ChatScreen: React.FC = () => {
 
     try {
       // 调用 Ollama API
-      const response = await axios.post('http://192.168.1.42:8000/chat/qwen2.5:3b', {
+      const response = await axios.post(`${CONFIG.API_BASE_URL}/chat/qwen2.5:3b`, {
         model: "qwen2.5:3b1",
         prompt: message,
       });

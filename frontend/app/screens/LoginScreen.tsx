@@ -111,6 +111,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { useNavigation } from '@react-navigation/native';
 import { UserContext } from '../contexts/UserContext'; // 导入 UserContext
+import CONFIG from '../../constants/config';
 
 type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
@@ -140,7 +141,7 @@ const LoginScreen = () => {
         }),
       ]).start();
 
-      const response = await axios.post('http://192.168.1.42:8000/login', {
+      const response = await axios.post(`${CONFIG.API_BASE_URL}/login`, {
         username: email,
         password: password,
       });

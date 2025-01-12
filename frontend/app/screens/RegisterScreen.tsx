@@ -6,6 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios'; // 新增：导入 axios
+import CONFIG from '../../constants/config'
 
 type RegisterScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Register'>;
 
@@ -18,7 +19,7 @@ const RegisterScreen: React.FC = () => {
     try {
       // 调用后端 FastAPI 注册接口
       // 假设后端需要 { username, password }
-      const response = await axios.post('http://192.168.1.42:8000/register', {
+      const response = await axios.post(`${CONFIG.API_BASE_URL}/register`, {
         username: email,
         password: password,
       });
